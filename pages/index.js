@@ -6,12 +6,26 @@ import axios from "axios";
 //         { callbackUrl:
 //               `http://localhost:8080/auth/realms/BANBEIS/protocol/openid-connect/logout` }
 //     )
-
+const BASE_URL_STUDENT = "http://localhost:8080/teachers"
 export default function Page() {
   const [ session, loading ] = useSession();
 
-  const logOutcallbackUrl = ()=>{
-    console.log('logOutcallbackUrl');
+  const getStudentData = async ()=>{
+    console.log('getStudentData');
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' +  session.accessToken
+      }
+    }
+
+    await axios.get(BASE_URL_STUDENT,config)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => console.log("Error occured " + error))
+
   }
   /*POST http://localhost:8080/auth/realms/<my_realm>/protocol/openid-connect/logout
 Authorization: Bearer <access_token>
@@ -50,7 +64,7 @@ client_id=<my_client_id>&refresh_token=<refresh_token>*/
         })
 
 
-    console.log('logOutUrl',logOutUrl)
+  //  console.log('logOutUrl',logOutUrl)
     //await signOut()
   }
 
@@ -61,9 +75,11 @@ client_id=<my_client_id>&refresh_token=<refresh_token>*/
       <button onClick={() => signIn()}>Sign in</button>
     </>}
     {session && <>
-      Signed in as {session.user.email} <br/>
+      Signed in as {session.user.email} {JSON.stringify(session)}<br/>
       {/*<button onClick={() => signOut({ callbackUrl: `/api/auth/signout?csrf=true` })}>Sign out</button>
       */}<button onClick={logOut}>Sign out</button>
+
+      <button onClick={getStudentData}>Get student data</button>
     </>}
   </>
 }

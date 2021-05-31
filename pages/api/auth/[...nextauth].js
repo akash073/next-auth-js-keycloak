@@ -42,7 +42,7 @@ const options = {
             if(account) {
                 console.log(account);
                 token.accessToken = account.accessToken;
-                token.refreshToken = account.refreshToken;
+                token.refreshToken = account.refresh_token;
             }
             return token
         },
