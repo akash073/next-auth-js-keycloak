@@ -1,4 +1,5 @@
 import { signIn, signOut, useSession,getSession } from 'next-auth/client'
+import axios from "axios";
 //import jwt from 'next-auth/jwt'
 
 //  signOut('keycloak',
@@ -21,8 +22,35 @@ client_id=<my_client_id>&refresh_token=<refresh_token>*/
   const logOut= async (e)=>{
     e.preventDefault();
     const token = session.accessToken
+    const refresh_token = session.refreshToken;
     console.log('logOut',token);
-    console.log('logOut',session.refreshToken);
+    console.log('logOut',refresh_token);
+    const logOutUrl = `http://localhost:8000/auth/realms/BANBEIS/protocol/openid-connect/logout`
+
+
+    const params = new URLSearchParams()
+    params.append('client_id', 'next-client')
+    params.append('refresh_token', refresh_token)
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+
+    await axios.post(logOutUrl, params, config)
+        .then((result) => {
+          // Do somthing
+          console.log(result);
+          signOut()
+        })
+        .catch((err) => {
+          // Do somthing
+          console.log(err);
+        })
+
+
+    console.log('logOutUrl',logOutUrl)
     //await signOut()
   }
 
