@@ -40,8 +40,9 @@ const options = {
           //  console.log(user);
            // console.log(account);
             if(account) {
-                console.log(account.accessToken);
+                console.log(account);
                 token.accessToken = account.accessToken;
+                token.refreshToken = account.refreshToken;
             }
             return token
         },
@@ -50,6 +51,7 @@ const options = {
             session.type = token.type;
             session.username = token.username;
             session.accessToken = token.accessToken;
+            session.refreshToken = token.refreshToken;
          //   console.log(session);
             return session
         }

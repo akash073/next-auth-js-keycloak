@@ -12,12 +12,18 @@ export default function Page() {
   const logOutcallbackUrl = ()=>{
     console.log('logOutcallbackUrl');
   }
+  /*POST http://localhost:8080/auth/realms/<my_realm>/protocol/openid-connect/logout
+Authorization: Bearer <access_token>
+Content-Type: application/x-www-form-urlencoded
+
+client_id=<my_client_id>&refresh_token=<refresh_token>*/
 
   const logOut= async (e)=>{
     e.preventDefault();
     const token = session.accessToken
     console.log('logOut',token);
-//    await signOut(logOutcallbackUrl)
+    console.log('logOut',session.refreshToken);
+    //await signOut()
   }
 
   /*<button onClick={() => signOut({ callbackUrl: `http://localhost:3000/api/auth/logout` })}>Sign Out</button>*/
