@@ -1,7 +1,24 @@
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signIn, signOut, useSession,getSession } from 'next-auth/client'
+//import jwt from 'next-auth/jwt'
+
+//  signOut('keycloak',
+//         { callbackUrl:
+//               `http://localhost:8080/auth/realms/BANBEIS/protocol/openid-connect/logout` }
+//     )
 
 export default function Page() {
-  const [ session, loading ] = useSession()
+  const [ session, loading ] = useSession();
+
+  const logOutcallbackUrl = ()=>{
+    console.log('logOutcallbackUrl');
+  }
+
+  const logOut= async (e)=>{
+    e.preventDefault();
+    const token = session.accessToken
+    console.log('logOut',token);
+//    await signOut(logOutcallbackUrl)
+  }
 
   /*<button onClick={() => signOut({ callbackUrl: `http://localhost:3000/api/auth/logout` })}>Sign Out</button>*/
   return <>
@@ -11,7 +28,18 @@ export default function Page() {
     </>}
     {session && <>
       Signed in as {session.user.email} <br/>
-      <button onClick={() => signOut({ callbackUrl: `http://localhost:8080/auth/realms/BANBEIS/protocol/openid-connect/logout` })}>Sign out</button>
+      {/*<button onClick={() => signOut({ callbackUrl: `/api/auth/signout?csrf=true` })}>Sign out</button>
+      */}<button onClick={logOut}>Sign out</button>
     </>}
   </>
+}
+
+
+export async function getServerSideProps(ctx) {
+  console.log('getServerSideProps');
+  return {
+    props: {
+      session: await getSession(ctx)
+    }
+  }
 }
