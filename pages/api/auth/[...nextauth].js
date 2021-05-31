@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-
+//http://localhost:8080/auth/realms/BANBEIS/protocol/openid-connect/logout
 const options = {
     providers: [
         Providers.GitHub({
