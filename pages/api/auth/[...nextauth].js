@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
-//http://localhost:8080/auth/realms/BANBEIS/protocol/openid-connect/logout
+
 const options = {
     providers: [
         Providers.GitHub({
@@ -23,8 +23,12 @@ const options = {
             profile: (profile) => ({ ...profile, id: profile.sub }),
         }
     ],
-    jwt: { encrypt: false },
-    session: { jwt: true },
+    jwt: {
+        encrypt: false
+    },
+    session: {
+        jwt: true
+    },
     callbacks: {
         async jwt(token, user, account, profile, isNewUser) {
             // Since you are using Credentials' provider, the data you're persisting
@@ -37,10 +41,10 @@ const options = {
                 token.username = user.username;
             }
           //  console.log(token);
-          //  console.log(user);
+            console.log('Token',token);
            // console.log(account);
             if(account) {
-                console.log(account);
+             //   console.log(account);
                 token.accessToken = account.accessToken;
                 token.refreshToken = account.refresh_token;
             }

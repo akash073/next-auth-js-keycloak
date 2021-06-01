@@ -1,12 +1,9 @@
 import { signIn, signOut, useSession,getSession } from 'next-auth/client'
 import axios from "axios";
-//import jwt from 'next-auth/jwt'
+import Link from "next/link";
 
-//  signOut('keycloak',
-//         { callbackUrl:
-//               `http://localhost:8080/auth/realms/BANBEIS/protocol/openid-connect/logout` }
-//     )
-const BASE_URL_STUDENT = "http://localhost:8080/teachers"
+const BASE_URL_STUDENT = "http://localhost:8080/students"
+
 export default function Page() {
   const [ session, loading ] = useSession();
 
@@ -25,13 +22,7 @@ export default function Page() {
           console.log(res);
         })
         .catch(error => console.log("Error occured " + error))
-
   }
-  /*POST http://localhost:8080/auth/realms/<my_realm>/protocol/openid-connect/logout
-Authorization: Bearer <access_token>
-Content-Type: application/x-www-form-urlencoded
-
-client_id=<my_client_id>&refresh_token=<refresh_token>*/
 
   const logOut= async (e)=>{
     e.preventDefault();
@@ -56,16 +47,12 @@ client_id=<my_client_id>&refresh_token=<refresh_token>*/
         .then((result) => {
           // Do somthing
           console.log(result);
-          signOut()
+          signOut({ callbackUrl: `/` })
         })
         .catch((err) => {
           // Do somthing
           console.log(err);
         })
-
-
-  //  console.log('logOutUrl',logOutUrl)
-    //await signOut()
   }
 
   /*<button onClick={() => signOut({ callbackUrl: `http://localhost:3000/api/auth/logout` })}>Sign Out</button>*/
@@ -80,7 +67,12 @@ client_id=<my_client_id>&refresh_token=<refresh_token>*/
       */}<button onClick={logOut}>Sign out</button>
 
       <button onClick={getStudentData}>Get student data</button>
+
     </>}
+
+    <Link href="/protected">
+      <a>Protected</a>
+    </Link>
   </>
 }
 
